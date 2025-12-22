@@ -15,7 +15,6 @@ public class SkillCategory {
 
     private String description;
 
-    // getters & setters
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
