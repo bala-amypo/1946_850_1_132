@@ -20,10 +20,10 @@ public class SecurityConfig {
                     "/v3/api-docs/**",
                     "/api/auth/**"
                 ).permitAll()
-                .anyRequest().permitAll() // everything open for now
+                .anyRequest().permitAll()
             )
-            .formLogin(login -> login.disable())   // disable login page
-            .httpBasic(basic -> basic.disable());  // no basic auth either
+            .formLogin(login -> login.disable())   
+            .httpBasic(basic -> basic.disable());  
 
         return http.build();
     }
