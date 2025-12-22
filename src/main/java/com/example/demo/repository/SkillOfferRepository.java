@@ -11,3 +11,4 @@ public interface SkillOfferRepository extends JpaRepository<SkillOffer, Long> {
     List<SkillOffer> findBySkillCategoryId(Long categoryId);
     List<SkillOffer> findByAvailability(String availability);
 }
+
