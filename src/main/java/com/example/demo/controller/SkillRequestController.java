@@ -1,27 +1,27 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.SkillRequestNew;
+import com.example.demo.model.SkillRequest;
 import com.example.demo.service.SkillRequestService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/skill-requests")
+@RequestMapping("/api/requests")
 public class SkillRequestController {
-    
-    @Autowired
-    private SkillRequestService skillRequestService;
-    
-    @PostMapping
-    public ResponseEntity<SkillRequestNew> create(@RequestBody SkillRequestNew skillRequest) {
-        SkillRequestNew created = skillRequestService.createRequest(skillRequest);
-        return ResponseEntity.ok(created);
+
+    private final SkillRequestService skillRequestService;
+
+    public SkillRequestController(SkillRequestService skillRequestService) {
+        this.skillRequestService = skillRequestService;
     }
-    
+
+    @PostMapping
+    public ResponseEntity<SkillRequest> create(@RequestBody SkillRequest request) {
+        return ResponseEntity.ok(skillRequestService.createRequest(request));
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<SkillRequestNew> get(@PathVariable Long id) {
-        SkillRequestNew request = skillRequestService.getRequestById(id);
-        return ResponseEntity.ok(request);
+    public ResponseEntity<SkillRequest> get(@PathVariable Long id) {
+        return ResponseEntity.ok(skillRequestService.getRequestById(id));
     }
 }
