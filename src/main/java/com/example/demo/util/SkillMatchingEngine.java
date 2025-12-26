@@ -2,26 +2,53 @@ package com.example.demo.util;
 
 import com.example.demo.model.SkillOffer;
 import com.example.demo.model.SkillRequest;
-import org.springframework.stereotype.Component;
+import com.example.demo.model.UserProfile;
 
-@Component
 public class SkillMatchingEngine {
-    public double calculateMatchScore(SkillOffer offer, SkillRequest request) {
-        double score = 0.0;
-        
-        if (offer.getSkillName().equalsIgnoreCase(request.getSkillName())) score += 40;
-        if (offer.getSkillCategory().getId().equals(request.getSkillCategory().getId())) score += 30;
-        if (offer.getExperienceLevel().equals(request.getRequiredLevel())) score += 20;
-        else if (isLevelSufficient(offer.getExperienceLevel(), request.getRequiredLevel())) score += 10;
-        
-        if (offer.getUser().getRating() >= 4.0) score += 10;
-        else if (offer.getUser().getRating() >= 3.0) score += 5;
-        
-        return Math.min(score, 100.0);
-    }
-    
-    private boolean isLevelSufficient(String offerLevel, String requiredLevel) {
-        return offerLevel.equals("EXPERT") || 
-               (offerLevel.equals("INTERMEDIATE") && !requiredLevel.equals("EXPERT"));
+
+    /**
+     * Returns a score between 0 and 100 indicating how well the offer matches the request.
+     */
+    public static int calculateMatchScore(SkillOffer offer, SkillRequest request) {
+        int score = 0;
+
+        // 1) Skill name match
+        String offerSkillName = offer.getSkillName();
+        String requestSkillName = request.getSkillName();
+        if (offerSkillName != null && offerSkillName.equalsIgnoreCase(requestSkillName)) {
+            score += 30;
+        }
+
+        // 2) Skill category match
+        String offerCategory = offer.getSkillCategory();
+        String requestCategory = request.getSkillCategory();
+        if (offerCategory != null && offerCategory.equalsIgnoreCase(requestCategory)) {
+            score += 20;
+        }
+
+        // 3) Experience / required level match
+        String offerLevel = offer.getExperienceLevel();
+        String requiredLevel = request.getRequiredLevel();
+        if (offerLevel != null && requiredLevel != null) {
+            if (offerLevel.equalsIgnoreCase(requiredLevel)) {
+                score += 30;
+            } else {
+                // partial match
+                score += 10;
+            }
+        }
+
+        // 4) User rating influence
+        UserProfile offerUser = offer.getUser();
+        if (offerUser != null && offerUser.getRating() != null) {
+            double rating = offerUser.getRating(); // 0.0 – 5.0
+            score += (int) (rating * 4); // up to +20
+        }
+
+        // clamp between 0 and 100
+        if (score < 0) score = 0;
+        if (score > 100) score = 100;
+
+        return score;
     }
 }
