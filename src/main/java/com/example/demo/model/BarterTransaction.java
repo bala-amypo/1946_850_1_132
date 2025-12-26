@@ -33,6 +33,7 @@ public class BarterTransaction {
         if (status == null) status = "INITIATED";
     }
 
+    // getters & setters
 
     public Long getId() { return id; }
 

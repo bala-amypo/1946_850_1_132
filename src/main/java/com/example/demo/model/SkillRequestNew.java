@@ -3,8 +3,8 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "skill_offers")
-public class SkillOffer {
+@Table(name = "skill_requests_new")
+public class SkillRequestNew {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,12 +18,7 @@ public class SkillOffer {
     @JoinColumn(name = "skill_id")
     private Skill skill;
     
-    @ManyToOne
-    @JoinColumn(name = "skill_category_id")
-    private SkillCategory skillCategory;
-    
-    private String skillName;
-    private String experienceLevel;
+    private String urgencyLevel;
     
     @Column(nullable = false)
     private boolean active = true;
@@ -38,14 +33,8 @@ public class SkillOffer {
     public Skill getSkill() { return skill; }
     public void setSkill(Skill skill) { this.skill = skill; }
     
-    public SkillCategory getSkillCategory() { return skillCategory; }
-    public void setSkillCategory(SkillCategory skillCategory) { this.skillCategory = skillCategory; }
-    
-    public String getSkillName() { return skillName; }
-    public void setSkillName(String skillName) { this.skillName = skillName; }
-    
-    public String getExperienceLevel() { return experienceLevel; }
-    public void setExperienceLevel(String experienceLevel) { this.experienceLevel = experienceLevel; }
+    public String getUrgencyLevel() { return urgencyLevel; }
+    public void setUrgencyLevel(String urgencyLevel) { this.urgencyLevel = urgencyLevel; }
     
     public boolean isActive() { return active; }
     public void setActive(boolean active) { this.active = active; }

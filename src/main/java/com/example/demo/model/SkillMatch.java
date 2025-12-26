@@ -43,6 +43,7 @@ public class SkillMatch {
         if (matchScore == null) matchScore = 0.0;
     }
 
+    // getters & setters
 
     public Long getId() { return id; }
 
