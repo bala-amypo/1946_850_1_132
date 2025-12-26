@@ -22,14 +22,20 @@ public class SkillRequestController {
         return ResponseEntity.ok(skillRequestService.createRequest(request));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<SkillRequest> get(@PathVariable Long id) {
-        return ResponseEntity.ok(skillRequestService.getRequestById(id));
+    @PutMapping("/{id}")
+    public ResponseEntity<SkillRequest> update(@PathVariable Long id,
+                                               @RequestBody SkillRequest request) {
+        return ResponseEntity.ok(skillRequestService.updateRequest(id, request));
     }
 
     @GetMapping
     public ResponseEntity<List<SkillRequest>> list() {
-        return ResponseEntity.ok(skillRequestService.getAllSkillRequests());
+        return ResponseEntity.ok(skillRequestService.getAllRequests());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SkillRequest> get(@PathVariable Long id) {
+        return ResponseEntity.ok(skillRequestService.getRequestById(id));
     }
 
     @GetMapping("/user/{userId}")
@@ -39,9 +45,7 @@ public class SkillRequestController {
 
     @PutMapping("/{id}/deactivate")
     public ResponseEntity<Void> deactivate(@PathVariable Long id) {
-        SkillRequest r = skillRequestService.getRequestById(id);
-        r.setActive(false);
-        skillRequestService.createRequest(r);
+        skillRequestService.deactivateRequest(id);
         return ResponseEntity.ok().build();
     }
 }

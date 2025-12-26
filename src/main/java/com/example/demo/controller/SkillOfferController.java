@@ -22,14 +22,20 @@ public class SkillOfferController {
         return ResponseEntity.ok(skillOfferService.createOffer(offer));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<SkillOffer> get(@PathVariable Long id) {
-        return ResponseEntity.ok(skillOfferService.getOfferById(id));
+    @PutMapping("/{id}")
+    public ResponseEntity<SkillOffer> update(@PathVariable Long id,
+                                             @RequestBody SkillOffer offer) {
+        return ResponseEntity.ok(skillOfferService.updateOffer(id, offer));
     }
 
     @GetMapping
     public ResponseEntity<List<SkillOffer>> list() {
-        return ResponseEntity.ok(skillOfferService.getAllSkillsOffers());
+        return ResponseEntity.ok(skillOfferService.getAllOffers());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SkillOffer> get(@PathVariable Long id) {
+        return ResponseEntity.ok(skillOfferService.getOfferById(id));
     }
 
     @GetMapping("/user/{userId}")
@@ -39,9 +45,7 @@ public class SkillOfferController {
 
     @PutMapping("/{id}/deactivate")
     public ResponseEntity<Void> deactivate(@PathVariable Long id) {
-        SkillOffer o = skillOfferService.getOfferById(id);
-        o.setActive(false);
-        skillOfferService.createOffer(o);
+        skillOfferService.deactivateOffer(id);
         return ResponseEntity.ok().build();
     }
 }

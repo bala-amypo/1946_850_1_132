@@ -19,8 +19,7 @@ public class SkillController {
 
     @PostMapping
     public ResponseEntity<Skill> create(@RequestBody Skill skill) {
-        Skill saved = skillService.save(skill);
-        return ResponseEntity.ok(saved);
+        return ResponseEntity.ok(skillService.createSkill(skill));
     }
 
     @PutMapping("/{id}")
@@ -35,15 +34,12 @@ public class SkillController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Skill> get(@PathVariable Long id) {
-        Skill s = skillService.findById(id);
-        return ResponseEntity.ok(s);
+        return ResponseEntity.ok(skillService.getById(id));
     }
 
     @PutMapping("/{id}/deactivate")
     public ResponseEntity<Void> deactivate(@PathVariable Long id) {
-        Skill s = skillService.findById(id);
-        s.setActive(false);
-        skillService.save(s);
+        skillService.deactivateSkill(id);
         return ResponseEntity.ok().build();
     }
 }

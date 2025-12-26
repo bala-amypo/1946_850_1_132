@@ -33,14 +33,13 @@ public class UserProfileController {
 
     @GetMapping
     public ResponseEntity<Iterable<UserProfile>> listAll() {
-        return ResponseEntity.ok(userProfileService.getUsersIterable());
+        return ResponseEntity.ok(userProfileService.getAll());
     }
 
     @PutMapping("/{id}/rating")
     public ResponseEntity<UserProfile> updateRating(@PathVariable Long id,
                                                     @RequestParam("value") double rating) {
-        UserProfile user = userProfileService.getUserById(id);
-        user.setRating(rating);
-        return ResponseEntity.ok(userProfileService.createUser(user));
+        UserProfile updated = userProfileService.updateRating(id, rating);
+        return ResponseEntity.ok(updated);
     }
 }
