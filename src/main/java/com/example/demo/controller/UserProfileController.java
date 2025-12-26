@@ -30,16 +30,4 @@ public class UserProfileController {
         userProfileService.deactivateUser(id);
         return ResponseEntity.ok().build();
     }
-
-    @GetMapping
-    public ResponseEntity<Iterable<UserProfile>> listAll() {
-        return ResponseEntity.ok(userProfileService.getAll());
-    }
-
-    @PutMapping("/{id}/rating")
-    public ResponseEntity<UserProfile> updateRating(@PathVariable Long id,
-                                                    @RequestParam("value") double rating) {
-        UserProfile updated = userProfileService.updateRating(id, rating);
-        return ResponseEntity.ok(updated);
-    }
 }
