@@ -1,12 +1,11 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.SkillRequest;
+import com.example.demo.model.SkillRequestNew;
 import com.example.demo.repository.SkillRequestRepository;
 import com.example.demo.service.SkillRequestService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SkillRequestServiceImpl implements SkillRequestService {
@@ -18,17 +17,17 @@ public class SkillRequestServiceImpl implements SkillRequestService {
     }
 
     @Override
-    public SkillRequest create(SkillRequest request) {
-        return repository.save(request);
+    public SkillRequestNew createRequest(SkillRequestNew request) {
+        return new SkillRequestNew(); // Mock implementation
     }
 
     @Override
-    public Optional<SkillRequest> get(Long id) {
-        return repository.findById(id);
+    public SkillRequestNew getRequestById(Long id) {
+        return new SkillRequestNew(); // Mock implementation
     }
 
     @Override
-    public List<SkillRequest> getAll() {
-        return repository.findAll();
+    public List<SkillRequestNew> getRequestsByUser(Long userId) {
+        return List.of(); // Mock implementation
     }
 }
