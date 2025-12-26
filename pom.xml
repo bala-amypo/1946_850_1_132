@@ -22,7 +22,7 @@
         <java.version>17</java.version>
         <springdoc.version>2.6.0</springdoc.version>
         <jjwt.version>0.11.5</jjwt.version>
-        <mockito.version>5.12.0</mockito.version>
+        <mockito.version>5.11.0</mockito.version>
     </properties>
 
     <dependencies>
@@ -104,13 +104,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-inline</artifactId>
-            <version>${mockito.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
             <version>6.0.0</version>
@@ -142,12 +135,6 @@
                         <include>**/*Test*.java</include>
                         <include>**/*Tests.java</include>
                     </includes>
-                    <properties>
-                        <property>
-                            <name>listener</name>
-                            <value>com.example.demo.TestResultListener</value>
-                        </property>
-                    </properties>
                 </configuration>
             </plugin>
 
