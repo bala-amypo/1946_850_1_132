@@ -8,7 +8,4 @@ import java.util.List;
 @Repository
 public interface SkillOfferRepository extends JpaRepository<SkillOffer, Long> {
     List<SkillOffer> findByUserId(Long userId);
-    List<SkillOffer> findBySkillCategoryId(Long categoryId);
-    List<SkillOffer> findByAvailability(String availability);
 }
-
