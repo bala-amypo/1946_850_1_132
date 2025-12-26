@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.SkillMatch;
-import com.example.demo.service.MatchService;
+import com.example.demo.model.MatchRecord;
+import com.example.demo.service.MatchmakingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,34 +11,21 @@ import java.util.List;
 @RequestMapping("/api/matches")
 public class MatchController {
 
-    private final MatchService matchService;
+    private final MatchmakingService matchService;
 
-    public MatchController(MatchService matchService) {
+    public MatchController(MatchmakingService matchService) {
         this.matchService = matchService;
     }
 
-    @PostMapping
-    public ResponseEntity<SkillMatch> createMatch(@RequestParam Long offerId,
-                                                  @RequestParam Long requestId,
-                                                  @RequestParam Long adminUserId) {
-        return ResponseEntity.ok(
-                matchService.createMatch(offerId, requestId, adminUserId)
-        );
+    // generate match for a given user (requester)
+    @PostMapping("/generate/{userId}")
+    public ResponseEntity<MatchRecord> generate(@PathVariable Long userId) {
+        return ResponseEntity.ok(matchService.generateMatch(userId));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<SkillMatch> getMatch(@PathVariable Long id) {
-        return ResponseEntity.ok(matchService.getMatch(id));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<SkillMatch>> getAllMatches() {
-        return ResponseEntity.ok(matchService.getAllMatches());
-    }
-
-    @PatchMapping("/{id}/status")
-    public ResponseEntity<SkillMatch> updateStatus(@PathVariable Long id,
-                                                   @RequestParam String status) {
-        return ResponseEntity.ok(matchService.updateMatchStatus(id, status));
+    // list matches for a user
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<MatchRecord>> getForUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(matchService.getMatchesForUser(userId));
     }
 }
