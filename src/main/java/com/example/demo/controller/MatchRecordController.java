@@ -7,16 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/match-records")   // <-- different base path
+@RequestMapping("/api/matches")
 public class MatchRecordController {
+    @Autowired private MatchmakingService service;
 
-    @Autowired
-    private MatchmakingService matchmakingService;
-
-    // use a unique sub-path too
-    @PostMapping("/generate/{userId}")
-    public ResponseEntity<MatchRecord> generate(@PathVariable Long userId) {
-        MatchRecord match = matchmakingService.generateMatch(userId);
-        return ResponseEntity.ok(match);
+    @PostMapping("/generate/{id}")
+    public ResponseEntity<MatchRecord> generate(@PathVariable Long id) {
+        return ResponseEntity.ok(service.generateMatch(id));
     }
 }
