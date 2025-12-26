@@ -9,11 +9,13 @@ import com.example.demo.repository.SkillRequestRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.MatchmakingService;
 import com.example.demo.util.SkillMatchingEngine;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
 
+@Primary
 @Service
 public class MatchServiceImpl implements MatchmakingService {
 
@@ -35,15 +37,13 @@ public class MatchServiceImpl implements MatchmakingService {
         this.skillMatchingEngine = skillMatchingEngine;
     }
 
-    // userId here is the requester’s id (matches your interface)
     @Override
     public MatchRecord generateMatch(Long userId) {
-        // get all requests for that user
         List<SkillRequest> requests = requestRepo.findByUserId(userId);
         if (requests.isEmpty()) {
             throw new RuntimeException("No requests for user");
         }
-        SkillRequest request = requests.get(0); // simplest choice
+        SkillRequest request = requests.get(0);
 
         List<SkillOffer> offers = offerRepo.findAll();
         if (offers.isEmpty()) {
