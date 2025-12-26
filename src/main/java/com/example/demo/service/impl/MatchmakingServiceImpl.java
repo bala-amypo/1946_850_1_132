@@ -1,22 +1,22 @@
-package com.example.demo.service.impl;
+// package com.example.demo.service.impl;
 
-import com.example.demo.model.MatchRecord;
-import com.example.demo.service.MatchmakingService;
-import org.springframework.stereotype.Service;
-import java.util.List;
+// import com.example.demo.model.MatchRecord;
+// import com.example.demo.service.MatchmakingService;
+// import org.springframework.stereotype.Service;
+// import java.util.List;
 
-@Service
-public class MatchmakingServiceImpl implements MatchmakingService {
+// @Service
+// public class MatchmakingServiceImpl implements MatchmakingService {
 
-    @Override
-    public MatchRecord generateMatch(Long userId) {
-        MatchRecord match = new MatchRecord();
-        match.setStatus("PENDING");
-        return match;
-    }
+//     @Override
+//     public MatchRecord generateMatch(Long userId) {
+//         MatchRecord match = new MatchRecord();
+//         match.setStatus("PENDING");
+//         return match;
+//     }
 
-    @Override
-    public List<MatchRecord> getMatchesForUser(Long userId) {
-        return List.of();
-    }
-}
+//     @Override
+//     public List<MatchRecord> getMatchesForUser(Long userId) {
+//         return List.of();
+//     }
+// }
