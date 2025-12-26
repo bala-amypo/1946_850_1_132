@@ -5,8 +5,6 @@ import com.example.demo.service.UserProfileService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/users")
 public class UserProfileController {
@@ -27,21 +25,22 @@ public class UserProfileController {
         return ResponseEntity.ok(userProfileService.getUserById(id));
     }
 
-    @GetMapping
-    public ResponseEntity<List<UserProfile>> listAll() {
-        return ResponseEntity.ok(userProfileService.getAllUsers());
-    }
-
     @PutMapping("/{id}/deactivate")
     public ResponseEntity<Void> deactivate(@PathVariable Long id) {
         userProfileService.deactivateUser(id);
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping
+    public ResponseEntity<Iterable<UserProfile>> listAll() {
+        return ResponseEntity.ok(userProfileService.getUsersIterable());
+    }
+
     @PutMapping("/{id}/rating")
     public ResponseEntity<UserProfile> updateRating(@PathVariable Long id,
                                                     @RequestParam("value") double rating) {
-        UserProfile updated = userProfileService.updateRating(id, rating);
-        return ResponseEntity.ok(updated);
+        UserProfile user = userProfileService.getUserById(id);
+        user.setRating(rating);
+        return ResponseEntity.ok(userProfileService.createUser(user));
     }
 }

@@ -25,14 +25,13 @@ public class MatchRecordController {
     @PostMapping
     public ResponseEntity<MatchRecord> create(@RequestParam Long offerId,
                                               @RequestParam Long requestId) {
-        MatchRecord match = matchmakingService.createMatch(offerId, requestId);
+        MatchRecord match = matchmakingService.simpleCreateMatch(offerId, requestId);
         return ResponseEntity.ok(match);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<MatchRecord> get(@PathVariable Long id) {
-        MatchRecord m = matchmakingService.getMatchById(id);
-        return ResponseEntity.ok(m);
+        return ResponseEntity.ok(matchmakingService.getMatchById(id));
     }
 
     @GetMapping("/user/{userId}")

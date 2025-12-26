@@ -34,7 +34,7 @@ public class AuthController {
         UserProfile u = userRepo.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("UserProfile not found"));
 
-        String token = jwtUtil.generateToken(u.getEmail(), u.getRole(), u.getId());
+        String token = jwtUtil.generateToken(u.getEmail(), "USER", u.getId());
         LoginResponse res = new LoginResponse();
         res.setToken(token);
         return ResponseEntity.ok(res);
@@ -49,10 +49,9 @@ public class AuthController {
         u.setEmail(request.getEmail());
         u.setPassword(request.getPassword());
         u.setUsername(request.getEmail());
-        u.setRole("USER");
         userRepo.save(u);
 
-        String token = jwtUtil.generateToken(u.getEmail(), u.getRole(), u.getId());
+        String token = jwtUtil.generateToken(u.getEmail(), "USER", u.getId());
         LoginResponse res = new LoginResponse();
         res.setToken(token);
         return ResponseEntity.ok(res);
