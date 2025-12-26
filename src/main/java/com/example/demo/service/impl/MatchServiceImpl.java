@@ -6,7 +6,7 @@ import com.example.demo.model.SkillRequest;
 import com.example.demo.repository.MatchRecordRepository;
 import com.example.demo.repository.SkillOfferRepository;
 import com.example.demo.repository.SkillRequestRepository;
-import com.example.demo.repository.UserProfileRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.MatchmakingService;
 import com.example.demo.util.SkillMatchingEngine;
 import org.springframework.stereotype.Service;
@@ -20,13 +20,13 @@ public class MatchServiceImpl implements MatchmakingService {
     private final SkillOfferRepository offerRepo;
     private final SkillRequestRepository requestRepo;
     private final MatchRecordRepository matchRepo;
-    private final UserProfileRepository userRepo;
+    private final UserRepository userRepo;
     private final SkillMatchingEngine skillMatchingEngine;
 
     public MatchServiceImpl(SkillOfferRepository offerRepo,
                             SkillRequestRepository requestRepo,
                             MatchRecordRepository matchRepo,
-                            UserProfileRepository userRepo,
+                            UserRepository userRepo,
                             SkillMatchingEngine skillMatchingEngine) {
         this.offerRepo = offerRepo;
         this.requestRepo = requestRepo;
@@ -35,18 +35,25 @@ public class MatchServiceImpl implements MatchmakingService {
         this.skillMatchingEngine = skillMatchingEngine;
     }
 
+    // userId here is the requester’s id (matches your interface)
     @Override
-    public MatchRecord generateMatch(Long requestId) {
-        SkillRequest request = requestRepo.findById(requestId)
-                .orElseThrow(() -> new RuntimeException("Request not found"));
+    public MatchRecord generateMatch(Long userId) {
+        // get all requests for that user
+        List<SkillRequest> requests = requestRepo.findByUserId(userId);
+        if (requests.isEmpty()) {
+            throw new RuntimeException("No requests for user");
+        }
+        SkillRequest request = requests.get(0); // simplest choice
 
         List<SkillOffer> offers = offerRepo.findAll();
+        if (offers.isEmpty()) {
+            throw new RuntimeException("No offers available");
+        }
 
-        // choose the best offer using SkillMatchingEngine
         SkillOffer bestOffer = offers.stream()
-                .max(Comparator.comparingInt(o -> skillMatchingEngine
-                        .calculateMatchScore(o, request)))
-                .orElseThrow(() -> new RuntimeException("No offers available"));
+                .max(Comparator.comparingInt(o ->
+                        skillMatchingEngine.calculateMatchScore(o, request)))
+                .orElseThrow(() -> new RuntimeException("No suitable offer"));
 
         MatchRecord match = new MatchRecord();
         match.setUserA(request.getUser());
