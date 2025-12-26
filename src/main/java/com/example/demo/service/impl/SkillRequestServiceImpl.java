@@ -1,6 +1,6 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.SkillRequestNew;
+import com.example.demo.model.SkillRequest;
 import com.example.demo.repository.SkillRequestRepository;
 import com.example.demo.service.SkillRequestService;
 import org.springframework.stereotype.Service;
@@ -10,24 +10,25 @@ import java.util.List;
 @Service
 public class SkillRequestServiceImpl implements SkillRequestService {
 
-    private final SkillRequestRepository repository;
+    private final SkillRequestRepository skillRequestRepository;
 
-    public SkillRequestServiceImpl(SkillRequestRepository repository) {
-        this.repository = repository;
+    public SkillRequestServiceImpl(SkillRequestRepository skillRequestRepository) {
+        this.skillRequestRepository = skillRequestRepository;
     }
 
     @Override
-    public SkillRequestNew createRequest(SkillRequestNew request) {
-        return new SkillRequestNew(); // Mock implementation
+    public SkillRequest createRequest(SkillRequest request) {
+        return skillRequestRepository.save(request);
     }
 
     @Override
-    public SkillRequestNew getRequestById(Long id) {
-        return new SkillRequestNew(); // Mock implementation
+    public SkillRequest getRequestById(Long id) {
+        return skillRequestRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("SkillRequest not found"));
     }
 
     @Override
-    public List<SkillRequestNew> getRequestsByUser(Long userId) {
-        return List.of(); // Mock implementation
+    public List<SkillRequest> getRequestsByUser(Long userId) {
+        return skillRequestRepository.findByUserId(userId);
     }
 }
